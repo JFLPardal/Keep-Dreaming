@@ -48,12 +48,20 @@ public class LeftJoyconInput : MonoBehaviour
     {
         if (Input.GetButton(holdSlingshot))
         {
-            slingshot.Held();
+            pjboyMovement.StopMoving();
+            Vector2 slingshotDirection = GetSlingshotDirection();
+            slingshot.Held(slingshotDirection);
         }
         else if (Input.GetButtonUp(holdSlingshot))
         {
             slingshot.Released();
         }
+    }
+
+    private Vector2 GetSlingshotDirection()
+    {
+        Vector2 directionToMove = new Vector2(Input.GetAxisRaw(leftJoyconX), Input.GetAxisRaw(leftJoyconY)).normalized;
+        return directionToMove;
     }
 
     private void CheckIfFiringSlingshot()
@@ -72,7 +80,6 @@ public class LeftJoyconInput : MonoBehaviour
             print(RightShoulder + " pressed");
         if (Input.GetButtonDown(downArrow))
             print(downArrow + " pressed");
-
         if (Input.GetButtonDown(rightArrow))
             print(rightArrow + " pressed");
         if (Input.GetButtonDown(leftArrow))

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class PJMovement : MonoBehaviour {
 
@@ -24,5 +25,10 @@ public class PJMovement : MonoBehaviour {
     private void Move(Vector2 movementDirection)
     {
         rb.velocity = movementDirection.normalized * maxSpeed;
+    }
+
+    internal void StopMoving()
+    {
+        rb.velocity = Vector2.zero;
     }
 }

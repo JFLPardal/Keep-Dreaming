@@ -5,7 +5,8 @@ public class SlingshotManager : MonoBehaviour {
 
     private bool isHoldingItem = false;
     private bool isHoldingSlingshot = false;
-    private ItemPickup ItemHeld;
+    private ItemPickup itemHeld;
+    private Vector2 slingshotDirection = new Vector2(1,0);
 
 	public bool IsHoldingItem()
     {
@@ -28,14 +29,14 @@ public class SlingshotManager : MonoBehaviour {
     private void HoldItem(ItemPickup itemToHold)
     {
         isHoldingItem = true;
-        ItemHeld = itemToHold;
+        itemHeld = itemToHold;
         DeactivateItemColliders();
         itemToHold.gameObject.transform.parent = this.gameObject.transform;
     }
 
     private void DeactivateItemColliders()
     {
-        foreach (Collider2D collider in ItemHeld.GetComponents<Collider2D>())
+        foreach (Collider2D collider in itemHeld.GetComponents<Collider2D>())
         {
             collider.enabled = false;
         }
@@ -51,12 +52,16 @@ public class SlingshotManager : MonoBehaviour {
 
     private void FireSlingshot()
     {
+        itemHeld.transform.parent = null;
+        isHoldingItem = false;
+        itemHeld.GetComponent<Projectile>().Fire(slingshotDirection);
         print("fire slingshot");
     }
 
-    public void Held()
+    public void Held(Vector2 pointedDirection)
     {
         isHoldingSlingshot = true;
+        slingshotDirection = pointedDirection;
         print("holding slinghsot");
     }
 
@@ -64,5 +69,12 @@ public class SlingshotManager : MonoBehaviour {
     {
         isHoldingSlingshot = false;
         print("released slingshot");
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Vector2 positionAsVector2 = new Vector2(transform.position.x, transform.position.y);
+        Gizmos.DrawLine(transform.position, positionAsVector2 + slingshotDirection);
     }
 }
