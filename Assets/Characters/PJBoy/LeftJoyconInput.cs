@@ -18,8 +18,8 @@ public class LeftJoyconInput : MonoBehaviour
     const string leftJoyconY = "JoyconLY";
 
     //button actions
-    const string holdSlingshot = RightShoulder;
-    const string fireSlingshot = rightArrow;
+    const string holdSlingshot = rightArrow;
+    const string fireSlingshot = RightShoulder;
 
     private PJMovement pjboyMovement;
     private SlingshotManager slingshot;

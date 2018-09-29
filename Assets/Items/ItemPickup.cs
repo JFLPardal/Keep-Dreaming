@@ -13,6 +13,4 @@ public class ItemPickup : MonoBehaviour
             slingshot.AttemptItemPickup(this);
         }
     }
-
-    
 }
