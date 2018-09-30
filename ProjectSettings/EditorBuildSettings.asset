@@ -5,7 +5,13 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
+    path: Assets/Scenes/apagarEstaScene.unity
+    guid: 0833a097ac3fb1542a6480015650da39
+  - enabled: 1
+    path: Assets/Scenes/KeepDreaming.unity
+    guid: a1005efd44b7e9842bf425928324f8eb
   m_configObjects: {}

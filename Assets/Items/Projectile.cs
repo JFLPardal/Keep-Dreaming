@@ -8,15 +8,29 @@ public class Projectile : MonoBehaviour
     [SerializeField] float linearDrag;
     [SerializeField] float angularDrag;
     [SerializeField] float hitDurationWindow = 1.5f;
+    [SerializeField] float cooldownCatchTime = 1.5f;
 
     private Collider2D catchCollider;
     private bool canDamage = false;
+    private bool canCatchThisItemAgain = true;
+
+    public bool CanCatchItem()
+    {
+        return canCatchThisItemAgain;
+    }
 
     public void Fire(Vector2 shotDirection)
     {
         transform.position += new Vector3(shotDirection.x, shotDirection.y, 0);
         GetComponent<Rigidbody2D>().velocity = shotDirection * throwStrength;
+        canCatchThisItemAgain = false;
+        Invoke("CanCatchThisProjectileAgain", cooldownCatchTime);
         MakeProjectileDamageable();
+    }
+
+    private void CanCatchThisProjectileAgain()
+    {
+        canCatchThisItemAgain = true;
     }
 
     void MakeProjectileDamageable()

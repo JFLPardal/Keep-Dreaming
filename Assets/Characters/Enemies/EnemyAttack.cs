@@ -1,12 +1,15 @@
 ﻿using UnityEngine;
 
-public class EnemyAttack : MonoBehaviour {
+public class EnemyAttack : MonoBehaviour
+{
+    const string ATTACK_TRIGGER = "Attack";
 
 	public void AttackTarget(GameObject targetToAttack)
     {
         if(targetToAttack.GetComponent<PJMovement>() != null)
         {
-            print("attack " + targetToAttack.name);
+            targetToAttack.GetComponent<HealthSystem>().AttemptDamagePlayer();
+            GetComponent<Animator>().SetTrigger(ATTACK_TRIGGER);
         }
     }
 }

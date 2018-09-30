@@ -3,12 +3,21 @@ using UnityEngine;
 
 public class SlingshotManager : MonoBehaviour
 {
+    private Animator animator;
     private bool isHoldingItem = false;
     private bool isHoldingSlingshot = false;
     private ItemPickup itemHeld;
     private Vector2 slingshotDirection = new Vector2(1,0);
 
-	public bool IsHoldingItem()
+    const string TRIGGER_IS_HOLDING = "Hold";
+    const string TRIGGER_STOP_HOLDING = "StopHold";
+
+    void Start()
+    {
+        animator = GetComponent<Animator>();   
+    }
+
+    public bool IsHoldingItem()
     {
         return isHoldingItem;
     }
@@ -54,18 +63,18 @@ public class SlingshotManager : MonoBehaviour
 
     public void Held(Vector2 pointedDirection)
     {
+        animator.SetTrigger(TRIGGER_IS_HOLDING);
         isHoldingSlingshot = true;
         if(pointedDirection != Vector2.zero)
         {
             slingshotDirection = pointedDirection;
         }
-        print("holding slinghsot");
     }
 
     public void Released()
     {
+        animator.SetTrigger(TRIGGER_STOP_HOLDING);
         isHoldingSlingshot = false;
-        print("released slingshot");
     }
 
     private void OnDrawGizmos()

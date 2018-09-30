@@ -1,7 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class RightJoyconInput : MonoBehaviour
 {
+    // joycon map
     const string LeftShoulder = "R L Shoulder";
     const string RightShoulder = "R R Shoulder";
 
@@ -12,24 +14,54 @@ public class RightJoyconInput : MonoBehaviour
 
     const string rightJoyconX = "JoyconRX";
     const string rightJoyconY = "JoyconRY";
+    
+    // button actions
+    const string pushEnemy = XButton;
+    
+    // animator
+    const string X_INPUT = "DirX";
+    const string Y_INPUT = "DirY";
 
     private StuMovement stuMovement;
+    private StuPush stuPush;
 
     void Start()
     {
-        stuMovement = GetComponent<StuMovement>();    
+        GetStuComponents();
     }
 
     void Update()
     {
-        TestInputs();
+        //TestInputs();
         GetJoystickInput();
+        CheckIfTryingToPush();
     }
 
     private void GetJoystickInput()
     {
-        Vector2 translateAmount = new Vector2(Input.GetAxis(rightJoyconX), Input.GetAxis(rightJoyconY));
+        float xInput = Input.GetAxis(rightJoyconX);
+        float yInput = Input.GetAxis(rightJoyconY);
+        
+        Vector2 translateAmount = new Vector2(xInput, yInput);
         stuMovement.Move(translateAmount);
+
+        Animator animator = GetComponent<Animator>();
+        animator.SetFloat(X_INPUT, xInput);
+        animator.SetFloat(Y_INPUT, yInput);
+    }
+    
+    private void CheckIfTryingToPush()
+    {
+        if (Input.GetButtonDown(pushEnemy))
+        {
+            stuPush.AttemptingToPush();
+        }
+    }
+
+    private void GetStuComponents()
+    {
+        stuMovement = GetComponent<StuMovement>();
+        stuPush = GetComponent<StuPush>();
     }
 
     private void TestInputs()

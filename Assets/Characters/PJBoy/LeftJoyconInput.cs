@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(SlingshotManager))]
 public class LeftJoyconInput : MonoBehaviour
 {
-    //joycon map
+    // joycon map
     const string LeftShoulder = "L L Shoulder";
     const string RightShoulder = "L R Shoulder";
 
@@ -16,10 +16,15 @@ public class LeftJoyconInput : MonoBehaviour
 
     const string leftJoyconX = "JoyconLX";
     const string leftJoyconY = "JoyconLY";
-
-    //button actions
+    
+    // button actions
     const string holdSlingshot = rightArrow;
     const string fireSlingshot = RightShoulder;
+    
+    // animator
+    const string X_INPUT = "DirX";
+    const string Y_INPUT = "DirY";
+    const string BOOL_IS_WALKING = "isWalking";
 
     private PJMovement pjboyMovement;
     private SlingshotManager slingshot;
@@ -32,7 +37,7 @@ public class LeftJoyconInput : MonoBehaviour
 
     void Update ()
     {
-        TestInput();
+        //TestInput();
         GetJoystickInput();
         CheckIfSlingshotIsBeingHeld();
         CheckIfFiringSlingshot();
@@ -40,8 +45,18 @@ public class LeftJoyconInput : MonoBehaviour
 
     private void GetJoystickInput()
     {
-        Vector2 directionToMove = new Vector2(Input.GetAxis(leftJoyconX), Input.GetAxis(leftJoyconY));
+        float xInput = Input.GetAxis(leftJoyconX);
+        float yInput = Input.GetAxis(leftJoyconY);
+
+        Vector2 directionToMove = new Vector2(xInput, yInput);
         pjboyMovement.AttemptMove(directionToMove);
+
+        Animator animator = GetComponent<Animator>();
+
+        animator.SetFloat(X_INPUT, xInput);
+        animator.SetFloat(Y_INPUT, yInput);
+
+        animator.SetBool(BOOL_IS_WALKING, directionToMove.magnitude > 0);
     }
 
     private void CheckIfSlingshotIsBeingHeld()
